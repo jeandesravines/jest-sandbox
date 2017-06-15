@@ -1,5 +1,23 @@
 # Jest Sandbox
 
+[![Build Status](https://travis-ci.org/jeandesravines/jest-sandbox.svg)](https://travis-ci.org/jeandesravines/jest-sandbox)
+[![Coverage Status](https://coveralls.io/repos/github/jeandesravines/jest-sandbox/badge.svg?branch=master)](https://coveralls.io/github/jeandesravines/jest-sandbox?branch=master)
+
+A Sinon's sandbox like for Jest Edit
+
+## Table of contents
+
+* [Setup](#setup)
+* [API](#api)
+* [Examples](#examples)
+
+
+## Setup
+
+```shell
+npm install --save-dev @jdes/jest-sandbox
+```
+
 ## API 
 
 ### static create(): Sandbox
