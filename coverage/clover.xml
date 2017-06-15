@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1497516583775" clover="3.2.0">
+  <project timestamp="1497516583776" name="All files">
+    <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="5" elements="16" coveredelements="15" complexity="0" loc="8" ncloc="8" packages="1" files="1" classes="1">
+      <file name="sandbox.js" path="/home/jean_desravines/workspace/jest-sandbox/lib/sandbox.js">
+        <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="5"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="22" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>
