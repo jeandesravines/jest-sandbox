@@ -11,6 +11,7 @@
     "url": "https://github.com/jeandesravines/jest-sandbox.git"
   },
   "scripts": {
+    "commit": "commit-wizard",
     "lint": "eslint --fix lib test",
     "test": "jest"
   },
