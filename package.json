@@ -12,6 +12,7 @@
   },
   "scripts": {
     "commit": "commit-wizard",
+    "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "eslint --fix lib test",
     "test": "jest"
   },
