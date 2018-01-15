@@ -1,20 +1,14 @@
 const Sandbox = require("../lib/sandbox");
 
-describe("create", () => {
-  test("create a sandbox", () => {
-    expect(Sandbox.create()).toBeInstanceOf(Sandbox);
-  });
-});
-
 describe("spyOn", () => {
   let spy;
-
+  
   afterEach(() => {
     spy.mockRestore();
   });
-
+  
   test("should spy a existant property", () => {
-    const sandbox = Sandbox.create();
+    const sandbox = new Sandbox();
     const object = {
       sayHello: () => "Hello"
     };
@@ -26,11 +20,23 @@ describe("spyOn", () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  test("should spy a non-existant property", () => {
-    const sandbox = Sandbox.create();
+  test("should fails on spies a non-existant property", () => {
+    const sandbox = new Sandbox();
     const object = {};
 
-    spy = sandbox.spyOn(object, "sayHello")
+    expect(() => {
+      sandbox.spyOn(object, "sayHello")
+        .mockReturnValue("Hola");
+    }).toThrow();
+
+    expect(object.sayHello).toBe(undefined);
+  });
+
+  test("should creates and spies on a non-existant property", () => {
+    const sandbox = new Sandbox();
+    const object = {};
+    
+    spy = sandbox.spyOn(object, "sayHello", true)
       .mockReturnValue("Hola");
 
     expect(object.sayHello()).toBe("Hola");
@@ -48,12 +54,12 @@ describe("retoreAllMocks", () => {
   });
 
   test("restores all mocks", () => {
-    const sandbox = Sandbox.create();
+    const sandbox = new Sandbox();
     const object = {};
     const mocks = [
-      sandbox.spyOn(object, "sayHello"),
-      sandbox.spyOn(object, "sayHola"),
-      sandbox.spyOn(object, "sayBonjour")
+      sandbox.spyOn(object, "sayHello", true),
+      sandbox.spyOn(object, "sayHola", true),
+      sandbox.spyOn(object, "sayBonjour", true)
     ];
 
     spies = mocks.map((mock) => {
@@ -68,24 +74,33 @@ describe("retoreAllMocks", () => {
 });
 
 describe("examples", () => {
-  const sandbox = Sandbox.create();
+  describe("Readme's examples", () => {
+    const sandbox = new Sandbox();
 
-  afterEach(() => {
-    sandbox.restoreAllMocks();
-  });
+    afterEach(() => {
+      sandbox.restoreAllMocks();
+    });
 
-  test("should calls API", () => {
-    const service = {
-      callApi: () => Promise.reject()
-    };
+    test("should calls API", () => {
+      const service = {
+        callApi: () => Promise.reject()
+      };
 
-    const spy = sandbox.spyOn(service, "callApi")
-      .mockReturnValue(Promise.resolve("Hello"));
+      const spyLog = sandbox.spyOn(service, "log", true)
+        .mockImplementation((log) => log);
 
-    return service.callApi()
-      .then((response) => {
-        expect(spy).toHaveBeenCalled();
-        expect(response).toBe("Hello");
-      });
+      const spyCallApi = sandbox.spyOn(service, "callApi")
+        .mockImplementation((path) => {
+          service.log(`GET ${path}`);
+          return Promise.resolve('Hello');
+        });
+
+      return service.callApi('/')
+        .then((response) => {
+          expect(spyCallApi).toHaveBeenCalled();
+          expect(spyLog).toHaveBeenCalledWith('GET /');
+          expect(response).toBe("Hello");
+        });
+    });
   });
 });

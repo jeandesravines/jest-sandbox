@@ -18,22 +18,16 @@ A Sinon's sandbox like for Jest Edit
 npm install --save-dev @jdes/jest-sandbox
 ```
 
-## API 
+## API
 
-### static create(): Sandbox
-
-```javasacript
-  const sandbox = Sandbox.create();
-```
-
-### spyOn(target: Object, property: string): Function 
+### spyOn(target: Object, property: string, create: ?boolean): Function 
 
 This method works like `jest.spyOn` with the only difference that 
-if the property to mocks does not exist, it will be created.
+if the property to mocks does not exist and the parameters `create` is `true`, it will be created.
 
 ```javascript
   const object = {};
-  const spy = sandbox.spyOn(object, "add")
+  const spy = sandbox.spyOn(object, "add", true)
     .mockImplmentation((a, b) => a + b);
     
   expect(object.add(20, 22)).toBe(42);
@@ -55,7 +49,7 @@ Calls `.mockRestore()` on all spies in the sandbox.
 import Sandbox from "@jdes/jest-sandbox"
 
 describe("Readme's examples", () => {
-  const sandbox = Sandbox.create();
+  const sandbox = new Sandbox();
 
   afterEach(() => {
     sandbox.restoreAllMocks();
@@ -66,12 +60,19 @@ describe("Readme's examples", () => {
       callApi: () => Promise.reject()
     };
 
-    const spy = sandbox.spyOn(service, "callApi")
-      .mockReturnValue(Promise.resolve("Hello"));
+    const spyLog = sandbox.spyOn(service, "log", true)
+      .mockImplementation((log) => log);
 
-    return service.callApi()
+    const spyCallApi = sandbox.spyOn(service, "callApi")
+      .mockImplementation((path) => {
+        service.log(`GET ${path}`);
+        return Promise.resolve('Hello');
+      });
+
+    return service.callApi('/')
       .then((response) => {
-        expect(spy).toHaveBeenCalled();
+        expect(spyCallApi).toHaveBeenCalled();
+        expect(spyLog).toHaveBeenCalledWith('GET /');
         expect(response).toBe("Hello");
       });
   });
