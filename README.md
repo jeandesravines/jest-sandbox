@@ -1,7 +1,7 @@
 # Jest Sandbox
 
 [![Build Status](https://travis-ci.org/jeandesravines/jest-sandbox.svg)](https://travis-ci.org/jeandesravines/jest-sandbox)
-[![Coverage Status](https://coveralls.io/repos/github/jeandesravines/jest-sandbox/badge.svg)](https://coveralls.io/github/jeandesravines/jest-sandbox)
+[![codecov](https://codecov.io/gh/jeandesravines/jest-sandbox/branch/master/graph/badge.svg)](https://codecov.io/gh/jeandesravines/jest-sandbox)
 
 A Sinon's sandbox like for Jest Edit
 
@@ -15,7 +15,7 @@ A Sinon's sandbox like for Jest Edit
 ## Setup
 
 ```shell
-npm install --save-dev @jdes/jest-sandbox
+yarn add -D @jdes/jest-sandbox
 ```
 
 ## API
